@@ -16,13 +16,13 @@ namespace PaintByAPI
         public MainForm()
         {
             InitializeComponent();
+            pbCanvas.PenWidth = (int)nupPenSize.Value;
         }
         private void btnPen_Click(object sender, EventArgs e)
         {
             pbCanvas.PenDown = !pbCanvas.PenDown;
             lblPenState.Text = pbCanvas.PenDown ? "Pen Down" : "Pen Up";
         }
-
         private void btnUp_Click(object sender, EventArgs e)
         {
             Point newPos = new Point(pbCanvas.PenPosition.X, pbCanvas.PenPosition.Y - increment);
@@ -60,6 +60,14 @@ namespace PaintByAPI
         private void nupPenSize_ValueChanged(object sender, EventArgs e)
         {
             pbCanvas.PenWidth = (int)nupPenSize.Value;
+        }
+        private void btnSendCode_Click(object sender, EventArgs e)
+        {
+            pbCanvas.AcceptCode((int)nup1.Value, (int)nup2.Value, (int)nup3.Value, (int)nup4.Value);
+            lblPenState.Text = pbCanvas.PenDown ? "Pen Down" : "Pen Up";
+            lblColour.Text = pbCanvas.PenColour.GetString();
+            lblPenPosition.Text = pbCanvas.PenPosition.GetString();
+            nupPenSize.Value = (decimal)pbCanvas.PenWidth;
         }
     }
 }

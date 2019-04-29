@@ -70,6 +70,10 @@ namespace PaintByAPI
                 return new Pen(PenColour, PenWidth);
             }
         }
+        public void MoveMouse(int x, int y)
+        {
+            MoveMouse(new Point(x, y));
+        }
         public void MoveMouse(Point newPos)
         {
             if (PenDown)
@@ -81,6 +85,60 @@ namespace PaintByAPI
                 }
             }
             mousePosition = newPos;
+        }
+        public void AcceptCode(params int[] args)
+        {
+            if (args.Length > 0)
+            {
+                switch (args[0])
+                {
+                    case 0:
+                    {
+                        PenDown = !PenDown;
+                        break;
+                    }
+                    case 1:
+                    {
+                        if (args.Length > 1)
+                        {
+                            int width = args[1];
+                            if (width > 0 && width <= 100)
+                            {
+                                PenWidth = width;
+                            }
+                        }
+                        break;
+                    }
+                    case 2:
+                    {
+                        if (args.Length > 2)
+                        {
+                            int x = args[1];
+                            int y = args[2];
+                            MoveMouse(x, y);
+                        }
+                        break;
+                    }
+                    case 3:
+                    {
+                        if (args.Length > 3)
+                        {
+                            Func<int,bool> inColourRange = (num) =>
+                            {
+                                return num >= 0 && num <= 255;
+                            };
+                            int r = args[1];
+                            int g = args[2];
+                            int b = args[3];
+                            if (inColourRange(r) && inColourRange(g) && inColourRange(b))
+                            {
+                                PenColour = Colour.FromArgb(r, g, b);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 }
